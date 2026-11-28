@@ -1,0 +1,6 @@
+{
+  "name": "智能日历与待办",
+  "description": "基于 iOS 27 设计风格的高颜值智能日历与全功能待办应用，深度融合联合国 24 时区世界地图与高精度世界时钟，支持 10 种国际语言与全本地隐私离线存储。",
+  "permissions": ["camera", "microphone", "geolocation"],
+  "capabilities": []
+}

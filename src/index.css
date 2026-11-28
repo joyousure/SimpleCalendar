@@ -1,0 +1,505 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  html, body {
+    overscroll-behavior-y: contain;
+  }
+  html {
+    color-scheme: light;
+  }
+  html.dark,
+  html.amoled-mode {
+    color-scheme: dark;
+  }
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  /* Keyboard, TV D-Pad & accessibility focus ring */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #2563EB;
+    outline-offset: 2px;
+  }
+}
+
+/* Custom Scrollbars */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.18s ease-out both;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+.animate-wheel-spin {
+  animation: spinSlow 4.5s linear infinite;
+  transform-box: view-box;
+  transform-origin: center;
+}
+
+@keyframes checkPop {
+  0% { transform: scale(0.75); }
+  55% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+.animate-check-pop {
+  animation: checkPop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes handshakeRipple {
+  0% { transform: scale(0.85); opacity: 0.75; }
+  100% { transform: scale(2.15); opacity: 0; }
+}
+.animate-handshake-ripple {
+  animation: handshakeRipple 1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+.animate-handshake-ripple-delay {
+  animation: handshakeRipple 1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s infinite;
+}
+
+@keyframes modalBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-modal-backdrop {
+  animation: modalBackdropIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes modalSlideUpFade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+.animate-modal-sheet {
+  animation: modalSlideUpFade 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cellTapBounce {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  42% { transform: translate3d(0, -7px, 0) scale(1.08); }
+  76% { transform: translate3d(0, -3px, 0) scale(1.04); }
+  100% { transform: translate3d(0, -4px, 0) scale(1.05); }
+}
+.animate-cell-tap {
+  animation: cellTapBounce 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.month-cell-selected-lift {
+  transform: translateY(-4px) scale(1.05);
+  will-change: transform;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes monthParallaxNext {
+  from {
+    opacity: 0.45;
+    transform: translate3d(28px, 0, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+.animate-month-next {
+  animation: monthParallaxNext 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes monthParallaxPrev {
+  from {
+    opacity: 0.45;
+    transform: translate3d(-28px, 0, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+.animate-month-prev {
+  animation: monthParallaxPrev 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Smooth Dark/Light/AMOLED Theme Cross-Fade */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition-property: background-color, color, border-color, box-shadow, fill, stroke !important;
+  transition-duration: 300ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* Cohesive Shared-Element & View Transition Motion */
+@keyframes viewEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+.animate-view-enter {
+  animation: viewEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes toolExpand {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-tool-expand {
+  animation: toolExpand 0.26s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes radialItemPop {
+  from {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-radial-item {
+  animation: radialItemPop 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes syncHaloPulse {
+  0% {
+    opacity: 0.72;
+    transform: scale(0.92);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.38);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.38);
+  }
+}
+.animate-sync-halo {
+  animation: syncHaloPulse 1.25s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes wmSwitchSettle {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-wm-settle {
+  animation: wmSwitchSettle 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* iOS 27 Shared-Element & Directional Spring View Transitions */
+@keyframes vtSlideOutStart {
+  from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  to { opacity: 0.72; transform: translate3d(-18px, 0, 0) scale(0.982); }
+}
+@keyframes vtSlideInEnd {
+  from { opacity: 0.65; transform: translate3d(26px, 0, 0) scale(0.988); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes vtSlideOutEnd {
+  from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  to { opacity: 0.72; transform: translate3d(18px, 0, 0) scale(0.982); }
+}
+@keyframes vtSlideInStart {
+  from { opacity: 0.65; transform: translate3d(-26px, 0, 0) scale(0.988); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes vtTabSwapOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.986); }
+}
+@keyframes vtTabSwapIn {
+  from { opacity: 0; transform: translate3d(0, 6px, 0) scale(0.99); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+::view-transition-group(*) {
+  animation-duration: 280ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html[data-transition-dir="forward"]::view-transition-old(main-content-pane) {
+  animation: vtSlideOutStart 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-transition-dir="forward"]::view-transition-new(main-content-pane) {
+  animation: vtSlideInEnd 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-transition-dir="back"]::view-transition-old(main-content-pane) {
+  animation: vtSlideOutEnd 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-transition-dir="back"]::view-transition-new(main-content-pane) {
+  animation: vtSlideInStart 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-transition-dir="tab"]::view-transition-old(main-content-pane) {
+  animation: vtTabSwapOut 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-transition-dir="tab"]::view-transition-new(main-content-pane) {
+  animation: vtTabSwapIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-modal-backdrop,
+  .animate-modal-sheet,
+  .animate-cell-tap,
+  .animate-month-next,
+  .animate-month-prev,
+  .animate-fade-in,
+  .animate-check-pop,
+  .animate-view-enter,
+  .animate-tool-expand,
+  .animate-radial-item,
+  .animate-sync-halo,
+  .animate-wm-settle,
+  .animate-wheel-spin {
+    animation-duration: 0.01ms !important;
+  }
+  .month-cell-selected-lift {
+    transition-duration: 0.01ms !important;
+  }
+  .theme-transitioning,
+  .theme-transitioning *,
+  .theme-transitioning *::before,
+  .theme-transitioning *::after {
+    transition-duration: 0.01ms !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Foldable Cover Display (< 375px), Unfolded Inner & Pixel Tablet Adaptive Tuning */
+@media (max-width: 374px) {
+  html {
+    font-size: 14.5px;
+  }
+  main {
+    --foldable-cover: 1;
+  }
+}
+
+@media (min-width: 540px) and (max-aspect-ratio: 4/3) and (min-aspect-ratio: 3/4) {
+  body {
+    --foldable-inner: 1;
+  }
+}
+
+@media (min-width: 1024px) and (min-height: 620px) {
+  body {
+    --tablet-landscape: 1;
+  }
+  main {
+    padding-inline: clamp(0.5rem, 1.5vw, 1.75rem);
+  }
+}
+
+/* Smart TV / 10-Foot Experience: Safe Overscan & Prominent D-Pad Focus Rings */
+html.tv-mode {
+  font-size: 17px;
+}
+html.tv-mode body {
+  padding: clamp(16px, 2.2vh, 32px) clamp(24px, 2.8vw, 48px);
+}
+html.tv-mode button:focus-visible,
+html.tv-mode a:focus-visible,
+html.tv-mode [role="button"]:focus-visible,
+html.tv-mode [role="tab"]:focus-visible,
+html.tv-mode input:focus-visible,
+html.tv-mode select:focus-visible,
+html.tv-mode textarea:focus-visible {
+  outline: 3px solid #3B82F6;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.28);
+  transform: scale(1.02);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+/* CSS Container Queries for Economic & Market Analysis Modals */
+.econ-modal-cq {
+  container-type: inline-size;
+  container-name: econ-modal;
+}
+
+.econ-chart-cq {
+  container-type: inline-size;
+  container-name: econ-chart;
+  width: 100%;
+  min-width: 0;
+}
+
+.econ-svg-responsive {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.econ-svg-area {
+  max-height: clamp(118px, 38cqi, 178px);
+}
+
+.econ-svg-compare {
+  max-height: clamp(138px, 42cqi, 210px);
+}
+
+.econ-svg-tsf {
+  max-height: clamp(170px, 50cqi, 290px);
+}
+
+.econ-svg-detail {
+  max-height: clamp(175px, 52cqi, 325px);
+}
+
+.econ-svg-tall {
+  max-height: clamp(190px, 56cqi, 385px);
+}
+
+.econ-svg-subcard {
+  max-height: clamp(104px, 46cqi, 164px);
+}
+
+.econ-loans-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+@container econ-modal (max-width: 340px) {
+  .econ-loans-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    overflow-y: auto;
+  }
+}
+
+@container econ-modal (min-width: 720px) {
+  .econ-loans-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+  }
+}
+
+@container econ-modal (max-width: 400px) {
+  .econ-kpi-grid {
+    gap: 0.25rem;
+  }
+  .econ-matrix-table {
+    font-size: 9px;
+  }
+}
+
+@container econ-chart (max-width: 360px) {
+  .econ-svg-area {
+    max-height: 132px;
+  }
+  .econ-svg-compare {
+    max-height: 152px;
+  }
+  .econ-svg-tsf {
+    max-height: 192px;
+  }
+  .econ-svg-detail {
+    max-height: 205px;
+  }
+  .econ-svg-tall {
+    max-height: 225px;
+  }
+  .econ-svg-subcard {
+    max-height: 112px;
+  }
+}
+
+@container econ-chart (min-width: 560px) {
+  .econ-svg-area {
+    max-height: 196px;
+  }
+  .econ-svg-compare {
+    max-height: 224px;
+  }
+  .econ-svg-tsf {
+    max-height: 300px;
+  }
+  .econ-svg-detail {
+    max-height: 340px;
+  }
+  .econ-svg-tall {
+    max-height: 410px;
+  }
+  .econ-svg-subcard {
+    max-height: 174px;
+  }
+}
+
+@media (max-height: 580px) {
+  .econ-svg-area {
+    max-height: clamp(96px, 30dvh, 152px);
+  }
+  .econ-svg-compare {
+    max-height: clamp(112px, 34dvh, 178px);
+  }
+  .econ-svg-tsf {
+    max-height: clamp(132px, 40dvh, 196px);
+  }
+  .econ-svg-detail {
+    max-height: clamp(128px, 38dvh, 182px);
+  }
+  .econ-svg-tall {
+    max-height: clamp(138px, 42dvh, 212px);
+  }
+  .econ-svg-subcard {
+    max-height: clamp(92px, 28dvh, 130px);
+  }
+}
+
